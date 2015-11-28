@@ -51,25 +51,26 @@ A similar format is used by Gary Chen's genome-scale Markovian coalescent simula
 
 Chen, G.K., P. Marjoram and J.D. Wall. 2009. [Fast and flexible simulation of DNA sequence data.](http://doi.org/10.1101/gr.083634.108) *Genome Research* **19**:136-142.
 
-The first line lists the number of segregating sites. The second line lists the positions of each single nucleotide polymorphism.  (These are not used in the *F<sub>ST</sub>* calculation, but one value per segregating site must be present in the data file). Each following line gives a single haplotype with two alleles represented by '0' and '1' and missing data represented by '?'.  Only two character states are allowed per site and polymorphisms must be point mutations (*i.e.*, the program does not accommodate indels). The first set of ```n1``` sequences should come from population one, while the last set of ```n2``` sequences should come from population two.
+The first line lists the number of segregating sites. The second line lists the positions of each single nucleotide polymorphism.  (These are not used in the *F<sub>ST</sub>* calculation, but one value per segregating site must be present in the data file). Each following line gives a single haplotype with two alleles represented by '0' and '1' and missing data represented by '?'.  Only two character states (excluding the missing data character) are allowed per site and polymorphisms must be point mutations (*i.e.*, the program does not accommodate indels). The first set of ```n1``` sequences should come from population one, while the last set of ```n2``` sequences should come from population two.
 
 
-```42```  
-```0.176460 0.176470 0.178610 0.179200 0.183260 0.184560 ...```  
-```000000000000000100000000000000000000000000```  
-```110000100010100101010100011100001010011111```  
-```??0000000000000100000000011000000110000000```  
-```??0110000000000110100000011000000110000000```  
-```000000000000000000000000011000000010000000```  
-```000110000000010100100001011000000110000000```  
-```??????????????????????????????????????????```  
-```??????????????????????????????????????????```  
-```000000000000000100000000001000000000000000```  
-```000000000010101100010000011000000110000010```  
-```.```  
-```.```  
-```.```  
-
+```
+42
+0.176460 0.176470 0.178610 0.179200 0.183260 0.184560 ...
+000000000000000100000000000000000000000000
+110000100010100101010100011100001010011111
+??0000000000000100000000011000000110000000
+??0110000000000110100000011000000110000000
+000000000000000000000000011000000010000000
+000110000000010100100001011000000110000000
+??????????????????????????????????????????
+??????????????????????????????????????????
+000000000000000100000000001000000000000000
+000000000010101100010000011000000110000010
+.
+.
+.
+```
 
 The *F<sub>ST</sub>* value is returned to stdout.
 
@@ -79,11 +80,14 @@ The example files ```example_data1.dat``` and ```example_data2.dat``` represent 
 
 To calculate *F<sub>ST</sub>* between French and Mandenka at 1pMB4:
 
-```cat example_data1.dat | filtFst 32 34```  
-```$ 0.086995```
+```
+cat example_data1.dat | filtFst 32 34
+$ 0.086995
+```
 
 To calculate *F<sub>ST</sub>* between French and Mandenka at 4qMB105:
 
-```cat example_data2.dat | filtFst 32 34```  
-```$ 0.139620```
-
+```
+cat example_data2.dat | filtFst 32 34
+$ 0.139620
+```
