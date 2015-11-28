@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>filtFst by mpcox</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>filtFst</h1>
+        <p>filtFst calculates Fst, a measure of population differentiation due to genetic structure</p>
+
+        <p class="view"><a href="https://github.com/mpcox/filtFst">View the Project on GitHub <small>mpcox/filtFst</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/mpcox/filtFst/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/mpcox/filtFst/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/mpcox/filtFst">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="filtfst" class="anchor" href="#filtfst" aria-hidden="true"><span class="octicon octicon-link"></span></a>filtFst</h1>
+
+<p>The C program <strong>filtFst</strong> calculates <em>F<sub>ST</sub></em>, a measure of population differentiation due to genetic structure, on datasets containing genetic data for two populations formatted in a similar style to the output of Richard Hudson's simulation software, <a href="http://home.uchicago.edu/rhudson1/source/mksamples.html">ms</a>.</p>
+
+<p><strong>filtFst</strong> was originally written by <a href="http://profiles.ucsf.edu/jeff.wall">Jeff Wall</a> (University of California San Francisco), and later modified by August Woerner (University of Arizona) and <a href="http://massey.genomicus.com">Murray Cox</a> (Massey University).</p>
+
+<p><strong>filtFst</strong> implements the variant of <em>F<sub>ST</sub></em> described in:</p>
+
+<p>Hudson, R.R., M. Slatkin and W.P. Maddison. 1992. <a href="http://www.genetics.org/content/132/2/583.abstract">Estimation of levels of gene flow from DNA sequence data.</a> <em>Genetics</em> <strong>132</strong>:583-589.</p>
+
+<p>Specifically, equation 3:</p>
+
+<p>〈<em>F<sub>ST</sub></em>〉 = 1 − (<em>H<sub>w</sub></em> / <em>H<sub>b</sub></em>)</p>
+
+<p>where <em>H<sub>w</sub></em> is the mean pairwise diversity within populations and <em>H<sub>b</sub></em> is the mean pairwise diversity between populations. The implementation here includes a correction factor for unequal sample sizes, as described in the supplementary material of:</p>
+
+<p>Plagnol, V. and J.D. Wall. 2006. <a href="http://doi.org/10.1371/journal.pgen.0020105">Possible ancestral structure in human populations.</a> <em>PLoS Genetics</em> <strong>2</strong>:e105.</p>
+
+<p><strong>filtFst</strong> can accommodate:</p>
+
+<ul>
+<li>Simulated data in a slight modification of Richard Hudson's <a href="http://home.uchicago.edu/rhudson1/source/mksamples.html">ms</a> format; and</li>
+<li>Real data in the same format (with missing data encoded as '?').</li>
+</ul>
+
+<h4>
+<a id="compilation" class="anchor" href="#compilation" aria-hidden="true"><span class="octicon octicon-link"></span></a>COMPILATION</h4>
+
+<p>To compile <strong>filtFst</strong>, install any standard C compiler. For <a href="https://gcc.gnu.org">gcc</a>, type:</p>
+
+<p><code>gcc filtFst.c -o filtFst -O3 -lm -Wall</code></p>
+
+<h4>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>USAGE</h4>
+
+<p>The basic usage of the program is:</p>
+
+<p><code>filtFst n1 n2</code></p>
+
+<p>where</p>
+
+<p><code>n1</code> is the sample size of population 1 (i.e., the number of sequences)<br>
+<code>n2</code> is the sample size of population 2 (i.e., the number of sequences)</p>
+
+<p>The data file itself is read from stdin (see <strong>EXAMPLES</strong> section below).</p>
+
+<h4>
+<a id="input-format" class="anchor" href="#input-format" aria-hidden="true"><span class="octicon octicon-link"></span></a>INPUT FORMAT</h4>
+
+<p>The input format is similar to the output format of Richard Hudson's <a href="http://home.uchicago.edu/rhudson1/source/mksamples.html">ms</a> program, described in:</p>
+
+<p>Hudson, R.R. 2002. <a href="http://doi.org/10.1093/bioinformatics/18.2.337">Generating samples under a Wright-Fisher neutral model of genetic variation.</a> <em>Bioinformatics</em> <strong>18</strong>:337-338.</p>
+
+<p>A similar format is used by Gary Chen's genome-scale Markovian coalescent simulator, <a href="https://github.com/gchen98/macs">MaCS</a>, described in:</p>
+
+<p>Chen, G.K., P. Marjoram and J.D. Wall. 2009. <a href="http://doi.org/10.1101/gr.083634.108">Fast and flexible simulation of DNA sequence data.</a> <em>Genome Research</em> <strong>19</strong>:136-142.</p>
+
+<p>The first line lists the number of segregating sites. The second line lists the positions of each single nucleotide polymorphism.  (These are not used in the <em>F<sub>ST</sub></em> calculation, but one value per segregating site must be present in the data file). Each following line gives a single haplotype with two alleles represented by '0' and '1' and missing data represented by '?'.  Only two character states (excluding the missing data character) are allowed per site and polymorphisms must be point mutations (<em>i.e.</em>, the program does not accommodate indels). The first set of <code>n1</code> sequences should come from population one, while the last set of <code>n2</code> sequences should come from population two.</p>
+
+<pre><code>42
+0.176460 0.176470 0.178610 0.179200 0.183260 0.184560 ...
+000000000000000100000000000000000000000000
+110000100010100101010100011100001010011111
+??0000000000000100000000011000000110000000
+??0110000000000110100000011000000110000000
+000000000000000000000000011000000010000000
+000110000000010100100001011000000110000000
+??????????????????????????????????????????
+??????????????????????????????????????????
+000000000000000100000000001000000000000000
+000000000010101100010000011000000110000010
+.
+.
+.
+</code></pre>
+
+<p>The <em>F<sub>ST</sub></em> value is returned to stdout.</p>
+
+<h4>
+<a id="examples" class="anchor" href="#examples" aria-hidden="true"><span class="octicon octicon-link"></span></a>EXAMPLES</h4>
+
+<p>The example files <code>example_data1.dat</code> and <code>example_data2.dat</code> represent real genomic data for the human loci 1pMB4 and 4qMB105 in French and Mandenka, respectively.</p>
+
+<p>To calculate <em>F<sub>ST</sub></em> between French and Mandenka at 1pMB4:</p>
+
+<pre><code>cat example_data1.dat | filtFst 32 34
+$ 0.086995
+</code></pre>
+
+<p>To calculate <em>F<sub>ST</sub></em> between French and Mandenka at 4qMB105:</p>
+
+<pre><code>cat example_data2.dat | filtFst 32 34
+$ 0.139620
+</code></pre>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/mpcox">mpcox</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
