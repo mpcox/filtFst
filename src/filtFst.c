@@ -8,9 +8,9 @@ of Hudson, Slatkin and Maddison (1992).
 Calculates Fst between two groups with the first n1 sequences from group one
 and the last n2 sequences from group two. Missing data can be encoded as '?'.
 
-Code originally written by Jeff Wall, University of California San Francisco (2006)
-Modified by August Woerner, University of Arizona (2007)
-Modified again by Murray Cox, Massey University (2015)
+Code originally written by Jeff Wall (2006)
+Modified by August Woerner (2007)
+Modified again by Murray Cox (2015)
 
 Compilation: gcc filtFst.c -o filtFst -O3 -lm -Wall
 
