@@ -2,7 +2,7 @@
 
 The C program **filtFst** calculates *F<sub>ST</sub>*, a measure of population differentiation due to genetic structure, on datasets containing genetic data for two populations formatted in a similar style to the output of Richard Hudson's simulation software, [ms](http://home.uchicago.edu/rhudson1/source/mksamples.html).
 
-**filtFst** was originally written by [Jeff Wall](http://profiles.ucsf.edu/jeff.wall) (University of California San Francisco), and later modified by August Woerner (University of Arizona) and [Murray Cox](http://massey.genomicus.com) (Massey University).
+**filtFst** was originally written by [Jeff Wall](http://profiles.ucsf.edu/jeff.wall), and later modified by [August Woerner](https://www.unthsc.edu/bios/woerner/)  and [Murray Cox](https://www.genomicus.com).
 
 **filtFst** implements the variant of *F<sub>ST</sub>* described in:
 
